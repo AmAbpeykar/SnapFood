@@ -23,17 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/addresses', [AddressController::class, 'index']);
 
-Route::post('/addresses', [AddressController::class, 'store']);
 
 Route::post('register', [AuthController::class, 'userRegister']);
+
+Route::post('login', [AuthController::class, 'userLogin']);
 
 Route::group(
     ['middleware' => 'auth:sanctum'],
     function () {
         Route::get('restaurants/{id}/foods' , [RestaurantController::class , 'foods']);
-        Route::get('restaurants/{is_open?}/{type?}/{score_gt?}' , [RestaurantController::class , 'index']);
         Route::get('restaurants/{id}', [RestaurantController::class, 'show']);
+        Route::get('restaurants/{is_open?}/{type?}/{score_gt?}' , [RestaurantController::class , 'index']);
+        Route::get('/addresses', [AddressController::class, 'index']);
+        Route::post('/addresses', [AddressController::class, 'store']);
     }
 );

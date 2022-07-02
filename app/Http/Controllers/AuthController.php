@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
@@ -91,6 +92,44 @@ class AuthController extends Controller
         ];
         
         return response($response , 201);
+    }
+    
+
+    public function userLogin(Request $request){
+
+        $validated = $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        $validated['password'] = bcrypt($validated['password']);
+
+       $user = User::where('email' , $validated['email'])->first();
+
+        
+        
+
+       if(!$user || Hash::check($validated['password'] , $user['password'])){
+            return response('email\password incorrect' , 401);    
+       }
+
+       $token = $user->createToekn('myapptoken')->plainTextToken;
+
+       return response()->json([
+        'user' => $user ,
+        'token' => $token
+       ]);
+
+    }
+
+    public function userLogout(){
+        
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'logged out'
+        ];
+
     }
 
 }

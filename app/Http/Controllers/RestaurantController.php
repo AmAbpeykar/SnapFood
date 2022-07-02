@@ -29,23 +29,23 @@ class RestaurantController extends Controller
 
         $restaurants = Restaurant::all();
 
-        // if($is_open !== 'null' && $is_open == true){
-        //     $rest = Restaurant::all();
-        //         foreach($rest as $res){
-        //             if($res->working_hour[$weekMap[Carbon::now()->dayOfWeek]] > time()){
+        if($is_open !== 'null' && $is_open == true){
+            $rest = Restaurant::all();
+                foreach($rest as $res){
+                    if($res->working_hour[$weekMap[Carbon::now()->dayOfWeek]] > time()){
                             
-        //                 $restaurants[] = $res;
+                        $restaurants[] = $res;
 
-        //             }
-        //         }
+                    }
+                }
                 
-        // }
+        }
 
         if($type !== 'null'){
 
             $restaurants = $restaurants->where('type' , $type);
 
-            
+    
         }
 
         if($score_gt !== 'null'){

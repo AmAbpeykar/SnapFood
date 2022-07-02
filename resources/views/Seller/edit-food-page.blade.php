@@ -3,7 +3,7 @@
 {{--    @if($errors->any())--}}
 {{--@dd($errors)--}}
 {{--    @endif--}}
-    <form method="post" class="mt-16 flex flex-col gap-5 w-full text-center"
+    <form method="post" enctype="multipart/form-data" class="mt-16 flex flex-col gap-5 w-full text-center"
           action="{{ route('update-food' , ['id' => $id]) }}">
         @csrf
         @method('put')
@@ -47,8 +47,7 @@
 
         <div>
             <label class="block text-indigo-500" for="">Image</label>
-            <input value="{{ old('image') ?? $food['image'] }}" type="text" name="image" id=""
-                   class="border-b-2 border-blue-400 outline-0 text-indigo-400 text-center m-2 w-1/3 focus:border-blue-600">
+            <input name="image" type="file">
         </div>
 
         <div>

@@ -16,9 +16,6 @@ class FoodController extends Controller
 
     public static function update($id , $input)
     {
-
-
-
         Food::where('id' , $id)->update($input);
     }
 

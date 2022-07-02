@@ -51,7 +51,23 @@ class SellerController extends Controller
         unset($input['_token']);
         unset($input['_method']);
 
-         FoodController::update($id , $input);
+
+
+        $validated = $request->validate([
+           'name' => 'required|min:3|max:20',
+           'food_category_id' => 'required|exists:foods_categories',
+           'price' => 'required|integer',
+            'image' => 'file|image|dimensions:max_with=500,max_height=500',
+        ]);
+
+
+        $image = time() . '_' . $validated['name'] . '.' . $request->file('image')->extension() ;
+
+        $request->image->move(public_path('images') , $image);
+
+
+        $validated['image'] = $image;
+         FoodController::update($id , $validated);
 
          return redirect()->route('seller.panel');
     }

@@ -16,6 +16,9 @@
                         <th scope="col" class="px-6 py-3">
                             Price
                         </th>
+                        <th scope="col" class="px-6 py-3">
+                            Image
+                        </th>
 
                     </tr>
                     </thead>
@@ -31,7 +34,9 @@
                             <td class="px-6 py-4">
                                 {{ $food['price'] }}
                             </td>
-
+                            <td class="px-6 py-4">
+                                <img src="{{ asset('images/' . $food['image']) }}" alt="">
+                            </td>
                             <td>
                                 <form action="{{route('delete-food' , ['id' => $food['id']])}}"
                                       method="POST">
