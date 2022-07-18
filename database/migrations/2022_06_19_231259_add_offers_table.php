@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->integer('Percent');
-           // $table->foreignIdFor() -> This Will Be Linked to Foods Table
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class Food extends Model
 
     protected $table = 'foods';
 
-    protected $fillable = ['name' , 'price' , 'image' , 'category' , 'in_food_party' , 'offer_id'];
+    protected $fillable = ['name' , 'price' , 'image' , 'category' , 'in_food_party' , 'food_category_id' , 'restaurant_id'];
 
 
 
@@ -25,7 +25,11 @@ protected function foodCategory(){
     }
 
     protected function offers(){
-       return $this->belongsTo(Offer::class);
+       return $this->belongsToMany(Offer::class);
     }
+
+   public function cartItems(){
+    return $this->hasMany(CartItem::class);
+   }
 
 }

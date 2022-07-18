@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Banner;
+use App\Models\Food;
 use App\Models\FoodCategory;
 use App\Models\RestaurantCategory;
 use App\Models\Role;
@@ -72,13 +74,31 @@ class DatabaseSeeder extends Seeder
 //             'name' => 'random2'
 //         ]);
 
-        WorkingHour::create([
-            'monday' => '9-21',
-            'thuesday' => '9-21',
-            'saturday' => '9-21',
-            'thursday' => '9-21',
-            'sunday' => '9-21',
-            'wednesday' => '9-21',
+//        WorkingHour::create([
+//            'monday' => '9-21',
+//            'thuesday' => '9-21',
+//            'saturday' => '9-21',
+//            'thursday' => '9-21',
+//            'sunday' => '9-21',
+//            'wednesday' => '9-21',
+//        ]);
+
+        Banner::create([
+            'name' => 'top_banner' ,
+            'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
         ]);
+        Banner::create([
+            'name' => 'middle_banner' ,
+            'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
+        ]);
+        Banner::create([
+            'name' => 'bottom_banner' ,
+            'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
+        ]);
+
+        foreach (Food::all() as $food){
+            Food::where('id' , $food->id)->update(['image' => '1656733902_Taniguchi Yuna.png']);
+        }
+
     }
 }

@@ -42,9 +42,9 @@ class AuthController extends Controller
             'password' => 'min:3|max:20',
             'role_id' => Rule::in([1 , 2 , 3])
         ]);
-        
 
-       
+
+
 
         if (Auth::attempt($validated)){
             $role = Auth::user()->role->role;
@@ -75,25 +75,25 @@ class AuthController extends Controller
             'email' => 'unique:users,email|required',
             'name' => 'required|min:3|max:20',
             'password' => 'required',
-    
+
         ]);
-        
+
         $validated['password'] = bcrypt($validated['password']);
         $validated['role_id'] = Role::IS_USER;
 
 
         $user = User::create($validated);
-        
+
         $token =$user->createToken('myapptoken')->plainTextToken;
 
         $response = [
             'user' => $user ,
             'token' => $token
         ];
-        
+
         return response($response , 201);
     }
-    
+
 
     public function userLogin(Request $request){
 
@@ -106,11 +106,11 @@ class AuthController extends Controller
 
        $user = User::where('email' , $validated['email'])->first();
 
-        
-        
+
+
 
        if(!$user || Hash::check($validated['password'] , $user['password'])){
-            return response('email\password incorrect' , 401);    
+            return response('email\password incorrect' , 401);
        }
 
        $token = $user->createToekn('myapptoken')->plainTextToken;
@@ -123,13 +123,19 @@ class AuthController extends Controller
     }
 
     public function userLogout(){
-        
+
         auth()->user()->tokens()->delete();
 
         return [
             'message' => 'logged out'
         ];
 
+    }
+
+
+    public function test(Request $request)
+    {
+        dd($request->input());
     }
 
 }

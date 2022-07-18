@@ -13,7 +13,7 @@ class AddressController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $validated = $request->validate([
             'title' => 'required|string',
             'user_id' => 'required|integer',
@@ -21,13 +21,9 @@ class AddressController extends Controller
             'longitude' => 'required|integer',
             'address' => 'required|string'
         ]);
-        
+
         Address::create($validated);
-
-
         return 'created successfully';
-
-
     }
 
 }

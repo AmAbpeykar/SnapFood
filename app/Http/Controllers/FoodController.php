@@ -19,4 +19,8 @@ class FoodController extends Controller
         Food::where('id' , $id)->update($input);
     }
 
+    public static function store($input){
+        Food::create($input);
+    }
+
 }

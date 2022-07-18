@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('price');
             $table->foreignIdFor(FoodCategory::class);
             $table->boolean('in_food_party');
-            $table->foreignIdFor(Offer::class)->nullable();
             $table->foreignIdFor(Restaurant::class);
             $table->timestamps();
         });

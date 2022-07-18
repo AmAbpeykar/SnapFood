@@ -17,10 +17,9 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->string('address');
+            $table->string('location');
             $table->string('title');
-            $table->string('latitude');
-            $table->string('longitude');
+            
             $table->timestamps();
         });
     }

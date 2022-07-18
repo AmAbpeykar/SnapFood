@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AddressController;
+use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\CartItemController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\AuthController;
 use App\Models\Restaurant;
@@ -32,10 +34,17 @@ Route::post('login', [AuthController::class, 'userLogin']);
 Route::group(
     ['middleware' => 'auth:sanctum'],
     function () {
-        Route::get('restaurants/{id}/foods' , [RestaurantController::class , 'foods']);
-        Route::get('restaurants/{id}', [RestaurantController::class, 'show']);
-        Route::get('restaurants/{is_open?}/{type?}/{score_gt?}' , [RestaurantController::class , 'index']);
-        Route::get('/addresses', [AddressController::class, 'index']);
-        Route::post('/addresses', [AddressController::class, 'store']);
+        // Route::get('restaurants/{id}/foods' , [RestaurantController::class , 'foods']);
+        // Route::get('restaurants/{id}', [RestaurantController::class, 'show']);
+        // Route::get('restaurants/{is_open?}/{type?}/{score_gt?}' , [RestaurantController::class , 'index']);
+        // Route::get('/addresses', [AddressController::class, 'index']);
+        // Route::post('/addresses', [AddressController::class, 'store']);
+        Route::get('/cart' , [CartController::class , 'index']);
+        Route::post('/add', [CartItemController::class , 'add']);
+      
+        Route::put('/update' , [CartItemController::class , 'update']);
+        Route::get('/carts/{id}' , [CartController::class , 'show']);
+
+        Route::post('carts/{id}/pay' , [CartController::class , 'pay']);
     }
 );

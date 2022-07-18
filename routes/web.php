@@ -1,14 +1,20 @@
 <?php
 
+use App\Http\Controllers\AbbarApp;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FoodCategoryController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\RestaurantCategoryController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\UserController;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Route;
+
+
 
 //use App\Http\Controllers\Seller\SellerController;
 
@@ -23,9 +29,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
 
 // Group Middleware
 
@@ -53,31 +57,18 @@ Route::group(['middleware' => 'auth'], function (){
        'middleware' => 'seller',
        'as' => 'seller.',] ,
         function(){
-        Route::get('seller/{id?}' , [SellerController::class , 'index'])
+        Route::get('seller' , [SellerController::class , 'index'])
             ->name('panel');
         });
 
-});
 
-
-
-Route::get('register' , [AuthController::class , 'registerPage'])->name('register.show')->middleware('guest');
-
-Route::get('login' , [AuthController::class , 'loginPage'])->name('login.show')->middleware('guest');
-
-Route::post('register' , [AuthController::class , 'register'])->name('register');
-
-Route::post('login' , [AuthController::class , 'login'])->name('login');
-
-Route::get('user-panel/{id}' , [UserController::class , 'userPanel'])->name('user-panel');
+        Route::get('user-panel/{id}' , [UserController::class , 'userPanel'])->name('user-panel');
 
 Route::get('admin-panel/{id}' , [UserController::class , 'adminPanel'])->name('-panel')->middleware('admin' , 'auth');
 
 Route::get('/logout' , [AuthController::class , 'logout'])->name('logout');
 
-Route::get('/home' , function (){
-   return view('home');
-})->name('home');
+Route::get('/' , [HomeController::class , 'home'])->name('home');
 
 Route::get('/admin-panel/food-categories' , []);
 
@@ -112,10 +103,28 @@ Route::put('/panel/admin/offer/update/{id}' , [OfferController::class , 'update'
 
 //Route::get('/');
 
-Route::get('/panel/seller/add-food' , [SellerController::class , 'create' ])->name('create-food');
+Route::get('/panel/seller/food/create/{id}' , [SellerController::class , 'create' ])->name('create-food');
 
 Route::put('/panel/seller/update/{id}' , [SellerController::class , 'update'])->name('update-food');
 
+Route::post('/panel/seller/food/store' , [SellerController::class , 'store'])->name('food-store');
 
 Route::get('/panel/seller/edit-food/{id}' , [SellerController::class , 'editFoodPage' ])->name('edit-food-page');
 Route::delete('/panel/seller/delete-food/{id}' , [SellerController::class , 'deleteFood'])->name('delete-food');
+
+Route::get('/setAddress' , [AddressController::class , 'store']
+)->name('form-test');
+
+});
+
+
+Route::group(['middleware' => 'guest'], function (){
+Route::get('register' , [AuthController::class , 'registerPage'])->name('register.show')->middleware('guest');
+
+Route::get('login' , [AuthController::class , 'loginPage'])->name('login.show')->middleware('guest');
+
+Route::post('register' , [AuthController::class , 'register'])->name('register');
+
+Route::post('login' , [AuthController::class , 'login'])->name('login');
+});
+

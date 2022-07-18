@@ -1,8 +1,8 @@
 <x-layout>
 
-{{--    @if($errors->any())--}}
-{{--@dd($errors)--}}
-{{--    @endif--}}
+   @if($errors->any())
+@dd($errors)
+   @endif
     <form method="post" enctype="multipart/form-data" class="mt-16 flex flex-col gap-5 w-full text-center"
           action="{{ route('update-food' , ['id' => $id]) }}">
         @csrf

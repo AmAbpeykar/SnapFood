@@ -14,6 +14,16 @@ $role = $role['role'];
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key="></script>
+        <script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+        <style type="text/css">
+            #map {
+                width: 100%;
+                height: 640px;
+            }
+        </style>
+
     </head>
     <body>
 
