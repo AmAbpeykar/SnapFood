@@ -26,7 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
 Route::post('register', [AuthController::class, 'userRegister']);
 
 Route::post('login', [AuthController::class, 'userLogin']);
@@ -39,12 +38,12 @@ Route::group(
         // Route::get('restaurants/{is_open?}/{type?}/{score_gt?}' , [RestaurantController::class , 'index']);
         // Route::get('/addresses', [AddressController::class, 'index']);
         // Route::post('/addresses', [AddressController::class, 'store']);
-        Route::get('/cart' , [CartController::class , 'index']);
-        Route::post('/add', [CartItemController::class , 'add']);
-      
-        Route::put('/update' , [CartItemController::class , 'update']);
-        Route::get('/carts/{id}' , [CartController::class , 'show']);
+        Route::get('/carts', [CartController::class, 'index']);
 
-        Route::post('carts/{id}/pay' , [CartController::class , 'pay']);
+        Route::post('/add', [CartItemController::class, 'add']);
+        Route::get('/carts/{id}', [CartController::class, 'show']);
+
+        Route::put('/update', [CartItemController::class, 'update']);
+        Route::post('carts/{id}/pay', [CartController::class, 'pay']);
     }
 );
