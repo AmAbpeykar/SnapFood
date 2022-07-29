@@ -23,4 +23,11 @@ class FoodController extends Controller
         Food::create($input);
     }
 
+    public function show($id)
+    {
+        $food = Food::where('id' , $id)->first();
+
+        return view('food' , ['food' => $food]);
+    }
+
 }

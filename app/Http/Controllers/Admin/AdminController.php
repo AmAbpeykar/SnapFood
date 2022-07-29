@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Food;
 use App\Models\FoodCategory;
 use App\Models\Offer;
@@ -23,7 +24,9 @@ class AdminController extends Controller
 
         $offers = Offer::all();
 
-        return view('Admin.admin-panel' , ['admin' => $admin , 'food_cat' => $food_cat , 'rest_cat' => $rest_cat , 'offers' => $offers]);
+        $banners = Banner::all();
+
+        return view('Admin.admin-panel' , ['admin' => $admin , 'food_cat' => $food_cat , 'rest_cat' => $rest_cat , 'offers' => $offers , 'banners' => $banners]);
     }
     public function indexSell($id)
     {

@@ -11,6 +11,8 @@ class WorkingHour extends Model
 
     protected $table = 'working_hours';
 
+    protected $fillable = ['open' , 'close'];
+
     public function restaurants(){
         return $this->hasMany(Restaurant::class);
     }

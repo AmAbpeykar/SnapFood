@@ -19,8 +19,12 @@ class FoodCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'min:3|max:20',
-            'food_category_id' => 'exists:foods_categories'
+            'food_category_id' => 'nullable|exists:foods_categories'
             ]);
+
+        if(!isset($validated['food_category_id'])){
+            $validated['food_category_id'] = 0;
+        }
 
         FoodCategory::create($validated);
 
@@ -32,16 +36,23 @@ class FoodCategoryController extends Controller
 
     public function edit($id)
     {
-        return view('Admin.edit-food-category' , ['id' => $id]);
+
+        $category = FoodCategory::where('id' , $id)->first();
+
+        return view('Admin.edit-food-category' , ['id' => $id , 'category' => $category]);
     }
 
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-           'food_category_id' => 'exists:foods_categories',
+           'food_category_id' => 'nullable|exists:foods_categories',
            'name' => 'min:3|max:20'
         ]);
+
+       if(!isset($validated['food_category_id'])){
+           $validated['food_category_id'] = 0;
+       }
 
         FoodCategory::where('id' , $id)->update($validated);
 

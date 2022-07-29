@@ -4,7 +4,8 @@
         <div class="m-5">
         <input type="text" class="text-center outline-0 border-b-2 border-blue-500 text-indigo-400" name="name" id="" placeholder="Name">
         <input type="text" class="text-center outline-0 border-b-2 border-blue-500 text-indigo-400" name="price" id="" placeholder="Price">
-        <input type="text" class="text-center outline-0 border-b-2 border-blue-500 text-indigo-400" name="in_food_party" id="" placeholder="Food Party">
+
+            <input type="text" class="text-center outline-0 border-b-2 border-blue-500 text-indigo-400" name="quantity" id="" placeholder="quantity">
     </div>
         <div class="m-5">
             <label class="block text-indigo-500" for="">Offer</label>

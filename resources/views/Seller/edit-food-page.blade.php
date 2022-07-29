@@ -45,9 +45,16 @@
             </select>
         </div>
 
-        <div>
+        <div class="w-full text-center">
+            @if($food['image'] !== null)
+            <img class="w-[200px] h-[200px] m-auto" src="{{ asset('images/' . $food['image'])  }}" alt="">
+            @endif
             <label class="block text-indigo-500" for="">Image</label>
             <input name="image" type="file">
+        </div>
+        <div class="w-full text-center">
+            <label class="font-bold text-sm text-indigo-500" for="">Delete Image</label>
+            <input name="delete_image" type="checkbox">
         </div>
 
         <div>

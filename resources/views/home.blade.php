@@ -25,14 +25,14 @@
 
         @foreach($foods as $food)
 
-            <div class="text-center w-full p-2">
+            <a href="{{ route('show-food' , ['id' => $food['id']]) }}" class="text-center w-full p-2">
 
                 <img class="m-auto" src="{{asset('images/' . $food->image)}}"  alt="">
 
                     <p class="mt-5">
                         {{ $food->name }}
                     </p>
-            </div>
+            </a>
         @endforeach
 
     {{ $foods->links('vendor.pagination.simple-tailwind') }}

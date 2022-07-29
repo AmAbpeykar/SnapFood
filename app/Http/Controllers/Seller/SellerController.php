@@ -44,30 +44,46 @@ class SellerController extends Controller
     {
 
 
-        $input = $request->input();
+
+        $food = $request->validate([
+            'name' => 'min:3|max:20' ,
+            'price' => 'integer' ,
+            'quantity' => 'integer' ,
+            'food_category_id' => 'exists:foods_categories,id' ,
+            'image' => 'nullable|image' ,
+            'restaurant_id' => 'exists:restaurants,id'
+        ]);
+
+
+        $food['in_food_party'] = false;
+
+        $offer = $request->validate([
+            'offer_id' => 'nullable|exists:offers,id'
+        ]);
 
 
 
+        if(isset($food['image'])){
 
-        $offer = $input['offer_id'];
+            $image = time() . '_' . $food['name'] . '.' . $request->file('image')->extension();
 
+            $request->image->move(public_path('images'), $image);
 
-
-
-
-        unset($input['offer_id']);
-
-        $food = $input;
-
+            $food['image'] = $image;
+        }
 
         FoodController::store($food);
+
+
 
 
         $id = Food::latest()->first()['id'];
 
 
+        $offer['food_id'] = $id;
 
-        $offer = ['food_id' => $id, 'offer_id' => $offer];
+
+
 
         Food_Offer::create($offer);
 
@@ -100,43 +116,47 @@ class SellerController extends Controller
     public function update($id, Request $request)
     {
 
-        $input = $request->input();
 
-        unset($input['_token']);
-        unset($input['_method']);
-
-
-
-      
-
-        $validated = $request->validate([
+        $food = $request->validate([
             'name' => 'required|min:3|max:20',
-            'food_category_id' => 'required|exists:foods_categories',
+            'food_category_id' => 'required|exists:foods_categories,id',
             'price' => 'required|integer',
-            'image' => 'file|image|dimensions:max_with=500,max_height=500',
+            'image' => 'nullable|file|image|dimensions:max_with=500,max_height=500',
+            'delete_image' => Rule::in(['on' , null])
         ]);
 
-        if($request->input()['offer_id'] !== 'null'){
-            $food_offer = Food_Offer::where('food_id' , $id)->first();
-            if(!empty($food_offer)){
-            $food_offer->update(['offer_id' => $request->input()['offer_id']]);
 
-        }else{       
-            Food_Offer::create(['offer_id' => $request->input()['offer_id'] , 'food_id' => $id]);
+        $offer = $request->validate([
+            'offer_id' => 'nullable|exists:offers,id'
+        ]);
+
+       if(isset($food['delete_image'])){
+            $food['image'] = null;
+            unset($food['delete_image']);
+       }
+
+
+
+        if(isset($food['image'])){
+
+            $image = time() . '_' . $food['name'] . '.' . $request->file('image')->extension();
+
+            $request->image->move(public_path('images'), $image);
+
+            $food['image'] = $image;
         }
+
+        if(!is_null($offer['offer_id'])){
+
+            Food_Offer::where('food_id' , $id)->delete();
+
+            $offer['food_id'] = $id;
+
+            Food_Offer::create($offer);
+
         }
 
-
-
-
-
-        $image = time() . '_' . $validated['name'] . '.' . $request->file('image')->extension();
-
-        $request->image->move(public_path('images'), $image);
-
-
-        $validated['image'] = $image;
-        FoodController::update($id, $validated);
+        FoodController::update($id, $food);
 
         return redirect()->route('seller.panel');
     }

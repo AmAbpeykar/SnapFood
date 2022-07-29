@@ -15,12 +15,8 @@ return new class extends Migration
     {
         Schema::create('working_hours', function (Blueprint $table) {
             $table->id();
-            $table->string('monday');
-            $table->string('thuesday');
-            $table->string('wednesday');
-            $table->string('thursday');
-            $table->string('saturday');
-            $table->string('sunday');
+            $table->time('open');
+            $table->time('close');
             $table->timestamps();
         });
     }

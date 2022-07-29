@@ -18,7 +18,6 @@ class RestaurantCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'min:3|max:20',
-            'restaurant_category_id' => 'exists:restaurants_categories'
         ]);
 
         RestaurantCategory::create($validated);
@@ -31,7 +30,10 @@ class RestaurantCategoryController extends Controller
 
     public function edit($id)
     {
-        return view('Admin.edit-restaurant-category' , ['id' => $id]);
+
+        $category = RestaurantCategory::where('id' , $id)->first();
+
+        return view('Admin.edit-restaurant-category' , ['category' => $category , 'id' => $id]);
     }
 
 

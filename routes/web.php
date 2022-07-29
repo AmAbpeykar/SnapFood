@@ -4,11 +4,14 @@ use App\Http\Controllers\AbbarApp;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FoodCategoryController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\RestaurantCategoryController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\UserController;
 use App\Models\Banner;
@@ -48,7 +51,7 @@ Route::group(['middleware' => 'auth'], function (){
         'prefix' => 'panel',
         'as' => 'user.'
     ] , function (){
-        Route::get('user/{id}' , [UserController::class , 'index'])
+        Route::get('user' , [UserController::class , 'index'])
             ->name('panel');
     });
 
@@ -115,6 +118,25 @@ Route::delete('/panel/seller/delete-food/{id}' , [SellerController::class , 'del
 Route::get('/setAddress' , [AddressController::class , 'store']
 )->name('form-test');
 
+    Route::get('panel/seller/orders' , [OrdersController::class , 'indexSeller'])->name('seller-orders');
+    Route::get('panel/admin/orders' , [OrdersController::class , 'indexAdmin'])->name('admin_orders');
+
+    Route::get('/new-restaurant' , [RestaurantController::class , 'create'])->name('new-restaurant');
+
+    Route::post('/new-restaurant' , [RestaurantController::class , 'store'])->name('store-restaurant');
+
+    Route::delete('panel/admin/delete-banner/{id}' , [BannerController::class , 'destroy'])->name('delete-banner');
+
+    Route::get('panel/admin/edit-banner/{id}' , [BannerController::class , 'edit'])->name('edit-banner');
+
+    Route::put('panel/admin/update-banner/{id}' , [BannerController::class , 'update'])->name('update-banner');
+
+    Route::get('panel/admin/add-banner' , [BannerController::class , 'create'])->name('create-banner');
+
+    Route::post('panel/admin/store-banner' , [BannerController::class , 'store'])->name('store-banner');
+
+    Route::get('show-food/{id}' , [FoodController::class , 'show'])->name('show-food');
+
 });
 
 
@@ -126,5 +148,9 @@ Route::get('login' , [AuthController::class , 'loginPage'])->name('login.show')-
 Route::post('register' , [AuthController::class , 'register'])->name('register');
 
 Route::post('login' , [AuthController::class , 'login'])->name('login');
+
+
 });
+
+
 

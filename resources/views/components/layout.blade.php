@@ -25,7 +25,7 @@ $role = $role['role'];
         </style>
 
     </head>
-    <body>
+    <body class=" {{ $color ?? 'bg-white' }}">
 
     <navbar class="flex bg-rose-600 content-center align-middle text-white justify-evenly p-8">
 
