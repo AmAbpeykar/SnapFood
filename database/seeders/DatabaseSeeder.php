@@ -74,12 +74,12 @@ class DatabaseSeeder extends Seeder
 
         Banner::create([
             'name' => 'top_banner' ,
-            'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
+            'image_path' => 'hero-image.png' ,
         ]);
 
         Banner::create([
             'name' => 'middle_banner' ,
-            'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
+            'image_path' => 'download.png' ,
         ]);
 
         Cart::create([

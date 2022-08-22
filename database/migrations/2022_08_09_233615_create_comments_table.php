@@ -20,7 +20,6 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Food::class);
-            $table->foreignIdFor(Restaurant::class);
             $table->string('title');
             $table->string('content');
             $table->foreignIdFor(User::class)->nullable();

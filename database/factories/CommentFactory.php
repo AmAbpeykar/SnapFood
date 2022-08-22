@@ -18,7 +18,7 @@ class CommentFactory extends Factory
     {
         return [
             'food_id' => random_int(1 , 20) ,
-            'user_id' => random_int(1,4) ,
+            'user_id' => random_int(1,3) ,
             'title' => 'Made From Factory' ,
             'content' => 'Made From Factory' ,
             'score' => random_int(1,5) ,
