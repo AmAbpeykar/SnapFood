@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
-            $table->id();
-            $table->string('image_path');
-            $table->timestamps();
+        Schema::table('comments', function (Blueprint $table) {
+            $table->boolean('status')->default(0);
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banners');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

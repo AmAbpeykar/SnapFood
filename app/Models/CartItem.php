@@ -21,4 +21,10 @@ class CartItem extends Model
         return $this->belongsTo(Food::class);
     }
 
+    public function total()
+    {
+        return $this->food['price'] * $this['count'];
+    }
+
+
 }

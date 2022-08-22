@@ -42,4 +42,6 @@ class CommentController extends Controller
         Comment::create($validated);
 
     }
+
+
 }

@@ -22,10 +22,10 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected function payment(): Attribute
+    protected function paid(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value == 0 ? 'not paid' : 'paid',
+            get: fn ($value) => $value == 1 ? 'paid' : 'not paid',
         );
     }
 
@@ -44,6 +44,20 @@ class Cart extends Model
                   }
                 }
             );
+    }
+
+
+
+    public function total()
+    {
+        $total = 0 ;
+
+        foreach($this->cartItems as $cartItem){
+            $total += $cartItem->total();
+        }
+
+
+        return $total;
     }
 
 }

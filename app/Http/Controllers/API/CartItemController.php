@@ -61,4 +61,33 @@ class CartItemController extends Controller
         return 'cart item does not exist.';
 
     }
+
+    public function inc($id)
+    {
+        $cartItem = CartItem::where('id' , $id)->first();
+
+        $cartItem->update(['count' => $cartItem['count'] + 1]);
+
+        return redirect()->route('user.panel');
+    }
+
+    public function dec($id)
+    {
+        $cartItem = CartItem::where('id' , $id)->first();
+
+        if($cartItem['count'] === 1) {
+            $cartItem->delete();
+        }
+
+        $cartItem->update(['count' => $cartItem['count'] - 1]);
+
+        return redirect()->route('user.panel');
+    }
+
+    public function delete($id)
+    {
+        CartItem::where('id' , $id)->delete();
+
+        return redirect()->route('user.panel');
+    }
 }

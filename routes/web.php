@@ -3,6 +3,9 @@
 use App\Http\Controllers\AbbarApp;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\CartItemController;
+use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FoodCategoryController;
@@ -45,10 +48,13 @@ Route::group(['middleware' => 'auth'], function (){
    ] , function (){
        Route::get('admin' , [AdminController::class , 'index'])
            ->name('panel');
+
+
    });
     // User Panel
     Route::group([
         'prefix' => 'panel',
+        'middleware' => 'user' ,
         'as' => 'user.'
     ] , function (){
         Route::get('user' , [UserController::class , 'index'])
@@ -65,65 +71,67 @@ Route::group(['middleware' => 'auth'], function (){
         });
 
 
-        Route::get('user-panel/{id}' , [UserController::class , 'userPanel'])->name('user-panel');
 
-Route::get('admin-panel/{id}' , [UserController::class , 'adminPanel'])->name('-panel')->middleware('admin' , 'auth');
+
+
 
 Route::get('/logout' , [AuthController::class , 'logout'])->name('logout');
 
 Route::get('/' , [HomeController::class , 'home'])->name('home');
 
-Route::get('/admin-panel/food-categories' , []);
-
-Route::get('/panel/admin/store' , [FoodCategoryController::class , 'create'])->name('new_food_category');
-
-Route::post('/panel/admin/store' , [FoodCategoryController::class , 'store'])->name('create_food_category');
-
-Route::delete('/panel/admin/destroy/{id}' , [FoodCategoryController::class , 'destroy'])->name('delete_food_category');
-
-Route::get('/panel/admin/edit/{id}' , [FoodCategoryController::class , 'edit'])->name('edit-food-category');
-Route::put('/panel/admin/update/{id}' , [FoodCategoryController::class , 'update'])->name('update-food-category');
-
-
-Route::get('/panel/admin/restaurant/store' , [RestaurantCategoryController::class , 'create'])->name('new_restaurant_category');
-
-Route::post('/panel/admin/restaurant/store' , [RestaurantCategoryController::class , 'store'])->name('create_restaurant_category');
-
-Route::delete('/panel/admin/restaurant/destroy/{id}' , [RestaurantCategoryController::class , 'destroy'])->name('delete_restaurant_category');
-
-Route::get('/panel/admin/restaurant/edit/{id}' , [RestaurantCategoryController::class , 'edit'])->name('edit-restaurant-category');
-Route::put('/panel/admin/restaurant/update/{id}' , [RestaurantCategoryController::class , 'update'])->name('update-restaurant-category');
-
-
-Route::get('/panel/admin/offer/store' , [OfferController::class , 'create'])->name('new-offer');
-
-Route::post('/panel/admin/offer/store' , [OfferController::class , 'store'])->name('create_offer');
-
-Route::delete('/panel/admin/offer/destroy/{id}' , [OfferController::class , 'destroy'])->name('delete_offer');
-
-Route::get('/panel/admin/offer/edit/{id}' , [OfferController::class , 'edit'])->name('edit-offer');
-Route::put('/panel/admin/offer/update/{id}' , [OfferController::class , 'update'])->name('update-offer');
 
 //Route::get('/');
 
-Route::get('/panel/seller/food/create/{id}' , [SellerController::class , 'create' ])->name('create-food');
-
-Route::put('/panel/seller/update/{id}' , [SellerController::class , 'update'])->name('update-food');
-
-Route::post('/panel/seller/food/store' , [SellerController::class , 'store'])->name('food-store');
-
-Route::get('/panel/seller/edit-food/{id}' , [SellerController::class , 'editFoodPage' ])->name('edit-food-page');
-Route::delete('/panel/seller/delete-food/{id}' , [SellerController::class , 'deleteFood'])->name('delete-food');
 
 Route::get('/setAddress' , [AddressController::class , 'store']
 )->name('form-test');
 
-    Route::get('panel/seller/orders' , [OrdersController::class , 'indexSeller'])->name('seller-orders');
-    Route::get('panel/admin/orders' , [OrdersController::class , 'indexAdmin'])->name('admin_orders');
+
 
     Route::get('/new-restaurant' , [RestaurantController::class , 'create'])->name('new-restaurant');
 
     Route::post('/new-restaurant' , [RestaurantController::class , 'store'])->name('store-restaurant');
+
+
+
+    Route::get('show-food/{id}' , [FoodController::class , 'show'])->name('show-food');
+
+});
+
+//Admin Routes
+
+Route::group(['middleware' => 'admin'] , function(){
+
+    Route::get('/admin-panel/food-categories' , []);
+
+    Route::get('/panel/admin/store' , [FoodCategoryController::class , 'create'])->name('new_food_category');
+
+    Route::post('/panel/admin/store' , [FoodCategoryController::class , 'store'])->name('create_food_category');
+
+    Route::delete('/panel/admin/destroy/{id}' , [FoodCategoryController::class , 'destroy'])->name('delete_food_category');
+
+    Route::get('/panel/admin/edit/{id}' , [FoodCategoryController::class , 'edit'])->name('edit-food-category');
+    Route::put('/panel/admin/update/{id}' , [FoodCategoryController::class , 'update'])->name('update-food-category');
+
+
+    Route::get('/panel/admin/restaurant/store' , [RestaurantCategoryController::class , 'create'])->name('new_restaurant_category');
+
+    Route::post('/panel/admin/restaurant/store' , [RestaurantCategoryController::class , 'store'])->name('create_restaurant_category');
+
+    Route::delete('/panel/admin/restaurant/destroy/{id}' , [RestaurantCategoryController::class , 'destroy'])->name('delete_restaurant_category');
+
+    Route::get('/panel/admin/restaurant/edit/{id}' , [RestaurantCategoryController::class , 'edit'])->name('edit-restaurant-category');
+    Route::put('/panel/admin/restaurant/update/{id}' , [RestaurantCategoryController::class , 'update'])->name('update-restaurant-category');
+
+
+    Route::get('/panel/admin/offer/store' , [OfferController::class , 'create'])->name('new-offer');
+
+    Route::post('/panel/admin/offer/store' , [OfferController::class , 'store'])->name('create_offer');
+
+    Route::delete('/panel/admin/offer/destroy/{id}' , [OfferController::class , 'destroy'])->name('delete_offer');
+
+    Route::get('/panel/admin/offer/edit/{id}' , [OfferController::class , 'edit'])->name('edit-offer');
+    Route::put('/panel/admin/offer/update/{id}' , [OfferController::class , 'update'])->name('update-offer');
 
     Route::delete('panel/admin/delete-banner/{id}' , [BannerController::class , 'destroy'])->name('delete-banner');
 
@@ -135,10 +143,44 @@ Route::get('/setAddress' , [AddressController::class , 'store']
 
     Route::post('panel/admin/store-banner' , [BannerController::class , 'store'])->name('store-banner');
 
-    Route::get('show-food/{id}' , [FoodController::class , 'show'])->name('show-food');
+    Route::get('panel/admin/confirm-comment/{id}' , [AdminController::class , 'confirm'])->name('confirm-comment');
+
+    Route::delete('panel/admin/delete-comment/{id}' , [AdminController::class , 'deleteComment'])->name('delete-comment');
+
 
 });
 
+//Seller Routes
+
+Route::group(['middleware' => 'seller'] , function (){
+
+    Route::get('/panel/seller/food/create/{id}' , [SellerController::class , 'create' ])->name('create-food');
+
+    Route::put('/panel/seller/update/{id}' , [SellerController::class , 'update'])->name('update-food');
+
+    Route::post('/panel/seller/food/store' , [SellerController::class , 'store'])->name('food-store');
+
+    Route::get('/panel/seller/edit-food/{id}' , [SellerController::class , 'editFoodPage' ])->name('edit-food-page');
+    Route::delete('/panel/seller/delete-food/{id}' , [SellerController::class , 'deleteFood'])->name('delete-food');
+
+    Route::get('panel/seller/orders' , [OrdersController::class , 'indexSeller'])->name('seller-orders');
+    Route::get('panel/admin/orders' , [OrdersController::class , 'indexAdmin'])->name('admin_orders');
+
+
+});
+
+//User Routes
+
+Route::group(['middleware' => 'user'] , function (){
+
+    Route::post('user-panel/carts/{id}/pay' , [CartController::class , 'pay'])->name('pay-cart');
+    Route::delete('user-panel/carts/{id}/delete' , [CartController::class , 'delete'])->name('delete-cart');
+    Route::put('user-panel/cartItem/{id}/inc' , [CartItemController::class , 'inc'])->name('inc-count');
+    Route::put('user-panel/cartItem/{id}/dec' , [CartItemController::class , 'dec'])->name('dec-count');
+    Route::delete('user-panel/cartItem/{id}/delete' , [CartItemController::class , 'delete'])->name('delete-cartItem');
+});
+
+//Guest Routes
 
 Route::group(['middleware' => 'guest'], function (){
 Route::get('register' , [AuthController::class , 'registerPage'])->name('register.show')->middleware('guest');

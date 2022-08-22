@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('offers', function (Blueprint $table) {
-            $table->addColumn('dateTime' , 'expiredtime');
+        Schema::create('banners', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image_path');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('offers', function (Blueprint $table) {
-            $table->dropColumn('expiredtime');
-        });
+        Schema::dropIfExists('banners');
     }
 };

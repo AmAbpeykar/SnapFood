@@ -57,4 +57,13 @@ class CartController extends Controller
         return 'successful';
 
     }
+
+    public function delete($id)
+    {
+
+        Cart::where('id' , $id)->delete();
+
+        return redirect()->route('user.panel')->with('message' , 'Successful');
+
+    }
 }

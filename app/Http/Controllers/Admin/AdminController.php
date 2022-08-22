@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Cart;
+use App\Models\Comment;
 use App\Models\Food;
 use App\Models\FoodCategory;
 use App\Models\Offer;
+use App\Models\Order;
 use App\Models\RestaurantCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +30,28 @@ class AdminController extends Controller
 
         $banners = Banner::all();
 
-        return view('Admin.admin-panel' , ['admin' => $admin , 'food_cat' => $food_cat , 'rest_cat' => $rest_cat , 'offers' => $offers , 'banners' => $banners]);
+        $comments = Comment::all();
+
+        $orders = Cart::all();
+
+
+        foreach ($comments as &$comment) {
+
+            if(!is_null($comment->user)){
+                $comment['user'] = $comment->user['id'];
+            }else{
+                $comment['user'] = $comment->cart['user_id'];
+            }
+
+        }
+
+
+
+
+        return view('Admin.admin-panel' , ['admin' => $admin , 'food_cat' => $food_cat , 'rest_cat' => $rest_cat , 'offers' => $offers , 'banners' => $banners , 'comments' => $comments , 'orders' => $orders]);
     }
+
+
     public function indexSell($id)
     {
 
@@ -85,5 +109,28 @@ class AdminController extends Controller
 
         return redirect()->route('seller.panel');
 
+    }
+
+
+    public function confirm($id)
+    {
+        $comment = Comment::find($id) ;
+
+
+        if ($comment->status == "unconfirmed"){
+            $comment->update(['status' => 1]);
+        }elseif($comment->status == "confirmed"){
+            $comment->update(['status' => 0]);
+        }
+
+
+        return redirect()->route('admin.panel');
+    }
+
+    public function deleteComment($id)
+    {
+        Comment::where('id' , $id)->delete();
+
+        return redirect()->route('admin.panel');
     }
 }

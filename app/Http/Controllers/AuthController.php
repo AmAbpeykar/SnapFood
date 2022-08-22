@@ -55,13 +55,16 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($validated)){
+
+
+
             $role = Auth::user()->role->role;
 
             if($role == 'user'){
-                return redirect()->route('user.panel' , ['id' => Auth::id()]);
+                return redirect()->route('user.panel' );
             }
 
-            return redirect( )->route( $role  . '.panel' , ['id' => Auth::id()]);
+            return redirect( )->route( $role  . '.panel');
 
         }
 

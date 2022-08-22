@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('carts', function (Blueprint $table) {
-            $table->boolean('paid')->default(false);
+        Schema::create('offers', function (Blueprint $table) {
+            $table->id();
+            $table->float('Percent');
+            $table->dateTime('expiredtime');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('carts', function (Blueprint $table) {
-            $table->dropColumn('paid');
-        });
+        Schema::dropIfExists('offers');
     }
 };

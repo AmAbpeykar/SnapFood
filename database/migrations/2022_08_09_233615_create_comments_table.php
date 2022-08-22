@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\Cart;
+use App\Models\Food;
+use App\Models\Restaurant;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
 
 return new class extends Migration
 {
@@ -14,12 +17,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->string('location');
+            $table->foreignIdFor(Food::class);
+            $table->foreignIdFor(Restaurant::class);
             $table->string('title');
-            
+            $table->string('content');
+            $table->foreignIdFor(User::class)->nullable();
+            $table->foreignIdFor(Cart::class)->nullable();
+            $table->float('score');
             $table->timestamps();
         });
     }
@@ -31,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('comments');
     }
 };

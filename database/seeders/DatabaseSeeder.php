@@ -3,8 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Banner;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Comment;
 use App\Models\Food;
+use App\Models\Food_Offer;
 use App\Models\FoodCategory;
+use App\Models\Offer;
+use App\Models\Restaurant;
 use App\Models\RestaurantCategory;
 use App\Models\Role;
 use App\Models\User;
@@ -22,83 +28,118 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
-//         Role::create(['role' => 'user']);
-//         Role::create(['role' => 'admin']);
-//         Role::create(['role' => 'seller']);
-// //
-//         User::create([
-//             'name' => 'admin',
-//             'email' => 'admin@gmail.com',
-//             'password' =>'1234',
-//             'role_id' => 2
-//         ]);
+//       Create Roles
+         Role::create(['role' => 'user']);
+         Role::create(['role' => 'admin']);
+         Role::create(['role' => 'seller']);
+//       Create Users
+         User::create([
+             'name' => 'admin',
+             'email' => 'admin@gmail.com',
+             'password' =>'1234',
+             'role_id' => 2
+         ]);
 
-//         User::create([
-//             'name' => 'user',
-//             'email' => 'user@gmail.com',
-//             'password' => bcrypt(1234),
-//             'role_id' => 1
-//         ]);
-// //
-//         User::create([
-//             'name' => 'seller2',
-//             'email' => 'seller2@gmail.com',
-//             'password' => 1234,
-//             'role_id' => 3
-//         ]);
+         User::create([
+             'name' => 'user',
+             'email' => 'user@gmail.com',
+             'password' => '1234',
+             'role_id' => 1
+         ]);
 
-//         FoodCategory::create([
-//             'food_category_id' => 1,
-//             'name' => 'Fast Food'
-//         ]);
+         User::create([
+             'name' => 'seller',
+             'email' => 'seller@gmail.com',
+             'password' => 1234,
+             'role_id' => 3
+         ]);
+         //Create Food Categories
+         FoodCategory::create([
+             'name' => 'Fast Food'
+         ]);
 
-//         FoodCategory::create([
-//             'food_category_id' => 1,
-//             'name' => 'Random'
-//         ]);
+         FoodCategory::create([
+             'name' => 'Sonnati'
+         ]);
 
-//         RestaurantCategory::create([
-//            'restaurant_category_id' => 1,
-//             'name' => 'random'
-//         ]);
+         RestaurantCategory::create([
+             'name' => 'FastFood'
+         ]);
 
-//         RestaurantCategory::create([
-//            'restaurant_category_id' => 1,
-//             'name' => 'random2'
-//         ]);
-
-//        WorkingHour::create([
-//            'monday' => '9-21',
-//            'thuesday' => '9-21',
-//            'saturday' => '9-21',
-//            'thursday' => '9-21',
-//            'sunday' => '9-21',
-//            'wednesday' => '9-21',
-//        ]);
+         RestaurantCategory::create([
+             'name' => 'Sonnati'
+         ]);
 
         Banner::create([
             'name' => 'top_banner' ,
             'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
         ]);
+
         Banner::create([
             'name' => 'middle_banner' ,
             'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
         ]);
-        Banner::create([
-            'name' => 'bottom_banner' ,
-            'image_path' => '1656733138_Kikuchi Momoe.jpg' ,
+
+        Cart::create([
+            'user_id' => 2
         ]);
 
-        foreach (Food::all() as $food){
-            Food::where('id' , $food->id)->update(['image' => '1656733902_Taniguchi Yuna.png']);
-        }
+        CartItem::create([
+            'cart_id' => 1 ,
+            'food_id' => 1 ,
+            'count' => 3
+        ]);
+
+        CartItem::create([
+            'cart_id' => 1 ,
+            'food_id' => 2 ,
+            'count' => 2
+        ]);
+
+        Offer::factory()->count(10)->create();
+
+        Food::create([
+            'name' => 'kebab',
+            'food_category_id' => 2 ,
+            'restaurant_id' => 1,
+            'price' => 50000/500 ,
+            'quantity'  => 10
+        ]);
+
+        Food::create([
+            'name' => 'pizza',
+            'food_category_id' => 1 ,
+            'restaurant_id' => 1,
+            'price' => 60000/500 ,
+            'quantity'  => 10
+        ]);
+
+        Food::factory()->count(30)->create();
+
+        Restaurant::factory()->count(15)->create();
+
+        Food_Offer::factory()->count(7)->create();
+
+        WorkingHour::create([
+            'open' => '9:00:00' ,
+            'close' => '21:00:00'
+        ]);
+
+        Comment::create([
+           'title' => 'By Me' ,
+            'content' => 'Test' ,
+            'cart_id' => 1 ,
+            'score' => 1 ,
+            'food_id' => 1 ,
+            'status' => 1
+        ]);
+
+
+        Comment::factory()->count(4)->create();
 
     }
+
+
 }

@@ -67,7 +67,7 @@
                             </td>
 
                                 <td class="px-6 py-4">
-                                    {{ $food['price'] - $food['price'] * $food->offers[0]['Percent'] / 100}}
+                                    {{ $food['price'] - ($food['price'] * $food->offers[0]['Percent'] / 100)}}
                                 </td>
 
 
